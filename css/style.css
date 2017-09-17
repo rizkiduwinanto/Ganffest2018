@@ -1,0 +1,81 @@
+body{
+  font-family:tahoma;
+  font-size:12px;
+}
+#pendaftaran-step{
+  margin:auto;padding:0;
+  width:53%;
+}
+#pendaftaran-step li{
+  list-style:none;
+  float:left;
+  padding:5px 10px;
+  border-top:#004C9C 1px solid;
+  border-left:#004C9C 1px solid;
+  border-right:#004C9C 1px solid;
+  border-radius:5px 5px 0 0;
+}
+.active{
+  color:#FFF;
+}
+#pendaftaran-step li.active{
+  background-color:#004C9C;
+}
+#pendaftaran-form{
+  clear:both;
+  border:10px #004C9C solid;
+  padding:20px;width:50%;
+  margin:auto;
+}
+.demoInputBox{
+  padding: 10px;
+  border: #CDCDCD 1px solid;
+  border-radius: 4px;
+  background-color: #FFF;
+  width: 50%;
+}
+.formError{
+  color:#FF0000;
+  padding-left:15px;
+}
+.message {
+  color: #396;
+  font-weight: bold;
+  font-size:16px;
+  margin-left:22%;
+  width: 100%;
+  padding: 10;
+}
+.btnAction{
+  padding: 5px 10px;
+  background-color: #39F;
+  border: 0;
+  color: #FFF;
+  cursor: pointer;
+  margin-top:15px;
+}
+label{
+  line-height:35px;
+}
+h1{
+	margin:3px 0;
+	font-size:13px;
+	text-decoration:underline;
+	text-align:center;
+}
+.tLink{
+	font-family:tahoma;
+	size:12px;
+	padding-left:10px;
+	text-align:center;
+}
+.chckBox{
+  display: block;
+  position: relative;
+  white-space: nowrap;
+}
+.special{
+  font-size: 35px;
+  text-align: right;
+  margin-bottom: 100px;
+}
