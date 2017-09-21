@@ -12,11 +12,9 @@
 		$fotodiri_temp = $_FILES['fotodiri']['tmp_name'];
 		$fotodiri_name = $db->real_escape_string($_FILES['fotodiri']['name']);
 		$fotodiri_type = $_FILES['fotodiri']['type'];
-		$fotodiri_path = "../fotodiri";
 		$fotoident_temp = $_FILES['fotoident']['tmp_name'];
 		$fotoident_name = $db->real_escape_string($_FILES['fotoident']['name']);
 		$fotoident_type = $_FILES['fotoident']['type'];
-		$fotoident_path = "../fotoident";
 
 		$name_prod = $db->real_escape_string($_POST['name_prod']);
 		$email_prod = $db->real_escape_string($_POST['email_prod']);
@@ -39,16 +37,14 @@
 		$photo_temp = $_FILES['photo']['tmp_name'];
 		$photo_name = $db->real_escape_string($_FILES['photo']['name']);
 		$photo_type = $_FILES['photo']['type'];
-		$photo_path = "../photo";
 		$poster_temp = $_FILES['poster']['tmp_name'];
 		$poster_name = $db->real_escape_string($_FILES['poster']['name']);
 		$poster_type = $_FILES['poster']['type'];
-		$poster_path = "../poster";
 
-		move_uploaded_file($photo_name, $photo_path);
-		move_uploaded_file($poster_name, $poster_path);
-		move_uploaded_file($fotoident_name, $fotoident_path);
-		move_uploaded_file($fotodiri_name, $fotodiri_path);
+		move_uploaded_file($photo_temp, "Still-" . $judul . '.' . 'jpeg');
+		move_uploaded_file($poster_temp, "Poster-" . $judul . '.' . 'jpeg');
+		move_uploaded_file($fotoident_temp, "Ident-" . $name . '.' . 'jpeg');
+		move_uploaded_file($fotodiri_temp, "Diri-" . $name . '.' . 'jpeg');
 
 		$db->query('SET foreign_key_checks = 0');
 
@@ -64,8 +60,6 @@
 
 		if($InsertSutradara === false || $InsertFilm==false || $InsertProduser==false){
 			$message = 'Error: ' . $db->error ;
-		}else{
-			$message =  'Your data has been submitted, will catch you up for the next announcement!';
 		}
 
 		$db->query('SET foreign_key_checks = 1');
@@ -208,12 +202,9 @@ function validate() {
 		}
 	}
 	if($("#agreement-field").css('display') != 'none') {
-		var all_checkboxes = $('#agreement-field input[type="checkbox"]');
-		if (all_checkboxes.length === all_checkboxes.filter(":checked").length) {
-
-		} else {
+		if ($('#agreement-field :checkbox:not(:checked)').length != 0) {
 			output = false;
-			$("#checkbox-error").html("Still Photo required!");
+			$("#checkbox-error").html("Checkbox required!");
 		}
 	}
 	return output;
@@ -253,28 +244,32 @@ $(document).ready(function() {
 			}
 		}
 	});
-	$("#finish").submit(function(e){
+	$("#finish").click(function(e){
 		var output = validate();
-		if (!output){
+		if (output){
+			window.location.href('http://www.ganffest.com/thank-you');
+		} else {
 			e.preventDefault();
-			return false;
 		}
 	});
 });
 </script>
 </head>
+<title>Form Pendaftaran Ganffest</title>
+<link rel="shorcut icon" href="img\S__9715892.jpg" type="image/jpg"/>
 <body>
 <h1>Form Pendaftaran Ganffest 2018</h1>
 
 <div class="message"><?php if(isset($message)) echo $message; ?></div>
+<span id="debug"></span>
 <ul id="pendaftaran-step">
-	<li id="sutradara">Sutradara</li>
+	<li id="sutradara"  class="active">Sutradara</li>
 	<li id="produser">Produser</li>
 	<li id="film">Film</li>
-	<li id="agreement" class="active">Agreement</li>
+	<li id="agreement">Agreement</li>
 </ul>
 <form name="form_pendaftaran" id="pendaftaran-form" method="post" enctype="multipart/form-data">
-	<div id="sutradara-field" style="display:none;">
+	<div id="sutradara-field" >
 		<label>Nama Lengkap</label><span id="name-error" class="formError"></span>
 		<div><input type="text" name="name" id="name" class="demoInputBox"/></div>
 		<label>Email</label><span id="email-error" class="formError"></span>
@@ -293,10 +288,10 @@ $(document).ready(function() {
 		<div><textarea rows="4" name="biografi" id="biografi" placeholder="Tulis biografi singkat" class="demoInputBox"></textarea></div>
 		<label>Foto Diri</label><span id="fotodiri-error" class="formError"></span>
 		<div><input type="file" name="fotodiri" id="fotodiri"></div>
-		<label>Foto Identitas</label><span id="fotoident-error" class="formError"></span>
+		<label>Foto Kartu Identitas</label><span id="fotoident-error" class="formError"></span>
 		<div><input type="file" name="fotoident" id="fotoident"></div>
 	</div>
-	<div id="produser-field"  style="display:none;">
+	<div id="produser-field" style="display:none;">
 		<label>Nama Lengkap</label><span id="name-prod-error" class="formError"></span>
 		<div><input type="text" name="name_prod" id="name_prod" class="demoInputBox"/></div>
 		<label>Email</label><span id="email-prod-error" class="formError"></span>
@@ -314,7 +309,7 @@ $(document).ready(function() {
 		<label>Nomor Telepon Rumah Produksi</label><span id="no-telp-ph-error" class="formError"></span>
 		<div><input type="text" name="no_telp_ph" id="no_telp_ph" class="demoInputBox" /></div>
 	</div>
-	<div id="film-field"  style="display:none;">
+	<div id="film-field" style="display:none;">
 		<label>Judul</label><span id="judul-error" class="formError"></span>
 		<div><input type="text" name="judul" id="judul" class="demoInputBox" /></div>
 		<label>Tahun Produksi</label><span id="tahun-error" class="formError"></span>
@@ -339,19 +334,16 @@ $(document).ready(function() {
 		<label>Poster/Artwork, Jika ada</label>
 		<div><input type="file" name="poster" id="poster"></div>
 	</div>
-	<div id="agreement-field">
-		<label class="special" >Persetujuan Ganffest</label><span id="checkbox-error" class="formError"></span>
+	<div id="agreement-field"  style="display:none;">
 			<input type="checkbox" name="agreement" id="c1" value="1" class="chckBox"> Saya mengetahui secara sadar dan menyetujui semua syarat dan ketentuan pendaftaran Ganesha Film Festival 2018[*]<br>
 			<input type="checkbox" name="agreement" id="c2" value="2" class="chckBox"> Saya mengisi formulir pendaftaran Ganesha Film Festival 2018 dengan data yang sebenarnya, bersedia berpartisipasi dalam Calling Entry Ganesha Film Festival 2018, dan mematuhi segala peraturan serta kesepakatan di dalamnya. [*]<br>
-			<input type="checkbox" name="agreement" id="c3" value="3" class="chckBox"> Saya menyetujui film yang saya submit ke Ganesha Film Festival 2018 dapat menjadi database film milik Liga Film Mahasiswa ITB [*]<br>
-			<input type="checkbox" name="aggrement" id="c4" value="4" class="chckBox"> Saya menyetujui sebagian/seluruh dari clip film pendek, still photo, poster, dan trailer dapat dipakai oleh Liga Film Mahasiswa ITB untuk kepentingan promosi ganffest 2018 dan setelahnya, dengan catatan Liga Film Mahasiswa ITB akan membicarakan lebih detail penggunaan dan izin filmnya terlebih dahulu kepada sutradara atau produser. [*]<br>
-			<input type="checkbox" name="agreement" id="c5" value="5" class="chckBox"> Saya menyetujui film yang saya submit dan masuk ke dalam Official Selection atau program lain dari Ganesha Film Festival 2018 dapat dimasukkan ke dalam DVD Kompilasi Ganesha Film Festival 2018 yang akan didistribusikan kepada komunitas atau organisasi film. [*]<br>
-			<input type="checkbox" name="agreement" id="c6" value="6" class="chckBox"> Saya menyetujui film yang saya submit ke Ganesha Film Festival 2018 dapat digunakan Liga Film Mahasiswa ITB untuk pemutaran internal atau eksternal. Dengan catatan, Liga Film Mahsiswa ITB akan membicarakan lebih detil penggunaan dan izin filmnya terlebih dahulu kepada sutradara/produser. [*]<br>
+			<input type="checkbox" name="agreement" id="c3" value="3" class="chckBox">Saya menyetujui sebagian/seluruh dari clip film pendek, still photo, poster, dan trailer dapat dipakai oleh Liga Film Mahasiswa ITB untuk kepentingan promosi Ganesha Film Festival 2018 dan setelahnya, dengan catatan Liga Film Mahasiswa ITB akan membicarakan lebih detail penggunaan dan izin filmnya terlebih dahulu kepada sutradara atau produser. [*]<br>
+		<span id="checkbox-error" class="formError"></span>
 	</div>
 	<div>
-		<input class="btnAction" type="button" name="back" id="back" value="Back" >
-		<input class="btnAction" type="button" name="next" id="next" value="Next" style="display:none;">
-		<input class="btnAction" type="submit" name="finish" id="finish" value="Finish" >
+		<input class="btnAction" type="button" name="back" id="back" value="Back" style="display:none;">
+		<input class="btnAction" type="button" name="next" id="next" value="Next">
+		<input class="btnAction" type="submit" name="finish" id="finish" value="Submit" style="display:none;">
 	</div>
 </form>
 </body>
