@@ -1,6 +1,6 @@
 <?php
 	include ('db.php');
-	if(isset($_POST['finish'])){
+	if(isset($_POST['submit'])){
 		$name 		= $db->real_escape_string($_POST['name']);
 		$email 		= $db->real_escape_string($_POST['email']);
 		$no_telp  = $db->real_escape_string($_POST['no_telp']);
@@ -41,20 +41,20 @@
 		$poster_name = $db->real_escape_string($_FILES['poster']['name']);
 		$poster_type = $_FILES['poster']['type'];
 
-		move_uploaded_file($photo_temp, "Still-" . $judul . '.' . 'jpeg');
-		move_uploaded_file($poster_temp, "Poster-" . $judul . '.' . 'jpeg');
-		move_uploaded_file($fotoident_temp, "Ident-" . $name . '.' . 'jpeg');
-		move_uploaded_file($fotodiri_temp, "Diri-" . $name . '.' . 'jpeg');
+		move_uploaded_file($photo_temp, "/Photo/Still-" . $judul . '.' . 'jpeg');
+		move_uploaded_file($poster_temp, "/Poster/Poster-" . $judul . '.' . 'jpeg');
+		move_uploaded_file($fotoident_temp, "/Ident/Ident-" . $name . '.' . 'jpeg');
+		move_uploaded_file($fotodiri_temp, "/Diri/Diri-" . $name . '.' . 'jpeg');
 
 		$db->query('SET foreign_key_checks = 0');
 
-		$InsertSutradara = $db->query("INSERT INTO Sutradara(Nama_Lengkap, Email, No_Telp, Alamat, Kota, Provinsi, Kodepos, Biografi) VALUES('$name', '$email', '$no_telp', '$alamat', '$kota', '$provinsi', '$kodepos', '$biografi');");
+		$InsertSutradara = $db->query("INSERT INTO sutradara(Nama_Lengkap, Email, No_Telp, Alamat, Kota, Provinsi, Kodepos, Biografi) VALUES('$name', '$email', '$no_telp', '$alamat', '$kota', '$provinsi', '$kodepos', '$biografi');");
 		$ID_Sutradara = $db->insert_id;
 
-		$InsertProduser = $db->query("INSERT INTO Produser(Nama_Lengkap, Email, No_Telp, Nama_PH, Alamat_PH, Kota_PH, Provinsi_PH, No_Telp_PH) VALUES('$name_prod', '$email_prod', '$no_telp_prod', '$name_ph', '$alamat_ph', '$kota_ph', '$provinsi_ph', '$no_telp_ph');");
+		$InsertProduser = $db->query("INSERT INTO produser(Nama_Lengkap, Email, No_Telp, Nama_PH, Alamat_PH, Kota_PH, Provinsi_PH, No_Telp_PH) VALUES('$name_prod', '$email_prod', '$no_telp_prod', '$name_ph', '$alamat_ph', '$kota_ph', '$provinsi_ph', '$no_telp_ph');");
 		$ID_Produser = $db->insert_id;
 
-		$InsertFilm = $db->query("INSERT INTO Film(Judul, Tahun, Durasi, Bahasa, Bersuara, Festival, Award, Sinopsis, Link, ID_Sutradara, ID_Produser) VALUES('$judul', $tahun, $durasi, '$bahasa', '$bersuara', '$festival', '$award', '$sinopsis', '$link', $ID_Sutradara, $ID_Produser);");
+		$InsertFilm = $db->query("INSERT INTO film(Judul, Tahun, Durasi, Bahasa, Bersuara, Festival, Award, Sinopsis, Link, ID_Sutradara, ID_Produser) VALUES('$judul', $tahun, $durasi, '$bahasa', '$bersuara', '$festival', '$award', '$sinopsis', '$link', $ID_Sutradara, $ID_Produser);");
 		$ID_Film = $db->insert_id;
 
 
@@ -64,4 +64,6 @@
 
 		$db->query('SET foreign_key_checks = 1');
 	}
+	header("location: http://www.ganffest.com/thank-you");
+	exit;
 ?>

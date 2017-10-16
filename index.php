@@ -1,74 +1,6 @@
-<?php
-	include ('db.php');
-	if(isset($_POST['finish'])){
-		$name 		= $db->real_escape_string($_POST['name']);
-		$email 		= $db->real_escape_string($_POST['email']);
-		$no_telp  = $db->real_escape_string($_POST['no_telp']);
-		$alamat  = $db->real_escape_string($_POST['alamat']);
-		$kota  = $db->real_escape_string($_POST['kota']);
-		$provinsi  =$db->real_escape_string($_POST['provinsi']);
-		$kodepos  = $db->real_escape_string($_POST['kodepos']);
-		$biografi  = $db->real_escape_string($_POST['biografi']);
-		$fotodiri_temp = $_FILES['fotodiri']['tmp_name'];
-		$fotodiri_name = $db->real_escape_string($_FILES['fotodiri']['name']);
-		$fotodiri_type = $_FILES['fotodiri']['type'];
-		$fotoident_temp = $_FILES['fotoident']['tmp_name'];
-		$fotoident_name = $db->real_escape_string($_FILES['fotoident']['name']);
-		$fotoident_type = $_FILES['fotoident']['type'];
-
-		$name_prod = $db->real_escape_string($_POST['name_prod']);
-		$email_prod = $db->real_escape_string($_POST['email_prod']);
-		$no_telp_prod = $db->real_escape_string($_POST['no_telp_prod']);
-		$name_ph = $db->real_escape_string($_POST['name_ph']);
-		$alamat_ph = $db->real_escape_string($_POST['alamat_ph']);
-		$kota_ph = $db->real_escape_string($_POST['kota_ph']);
-		$provinsi_ph = $db->real_escape_string($_POST['provinsi_ph']);
-		$no_telp_ph = $db->real_escape_string($_POST['no_telp_ph']);
-
-		$judul = $db->real_escape_string($_POST['judul']);
-		$tahun = $_POST['tahun'];
-		$durasi = $_POST['durasi'];
-		$bahasa = $db->real_escape_string($_POST['bahasa']);
-		$bersuara = $db->real_escape_string($_POST['bersuara']);
-		$festival = $db->real_escape_string($_POST['festival']);
-		$award = $db->real_escape_string($_POST['award']);
-		$link = $db->real_escape_string($_POST['link']);
-		$sinopsis = $db->real_escape_string($_POST['sinopsis']);
-		$photo_temp = $_FILES['photo']['tmp_name'];
-		$photo_name = $db->real_escape_string($_FILES['photo']['name']);
-		$photo_type = $_FILES['photo']['type'];
-		$poster_temp = $_FILES['poster']['tmp_name'];
-		$poster_name = $db->real_escape_string($_FILES['poster']['name']);
-		$poster_type = $_FILES['poster']['type'];
-
-		move_uploaded_file($photo_temp, "Still-" . $judul . '.' . 'jpeg');
-		move_uploaded_file($poster_temp, "Poster-" . $judul . '.' . 'jpeg');
-		move_uploaded_file($fotoident_temp, "Ident-" . $name . '.' . 'jpeg');
-		move_uploaded_file($fotodiri_temp, "Diri-" . $name . '.' . 'jpeg');
-
-		$db->query('SET foreign_key_checks = 0');
-
-		$InsertSutradara = $db->query("INSERT INTO Sutradara(Nama_Lengkap, Email, No_Telp, Alamat, Kota, Provinsi, Kodepos, Biografi) VALUES('$name', '$email', '$no_telp', '$alamat', '$kota', '$provinsi', '$kodepos', '$biografi');");
-		$ID_Sutradara = $db->insert_id;
-
-		$InsertProduser = $db->query("INSERT INTO Produser(Nama_Lengkap, Email, No_Telp, Nama_PH, Alamat_PH, Kota_PH, Provinsi_PH, No_Telp_PH) VALUES('$name_prod', '$email_prod', '$no_telp_prod', '$name_ph', '$alamat_ph', '$kota_ph', '$provinsi_ph', '$no_telp_ph');");
-		$ID_Produser = $db->insert_id;
-
-		$InsertFilm = $db->query("INSERT INTO Film(Judul, Tahun, Durasi, Bahasa, Bersuara, Festival, Award, Sinopsis, Link, ID_Sutradara, ID_Produser) VALUES('$judul', $tahun, $durasi, '$bahasa', '$bersuara', '$festival', '$award', '$sinopsis', '$link', $ID_Sutradara, $ID_Produser);");
-		$ID_Film = $db->insert_id;
-
-
-		if($InsertSutradara === false || $InsertFilm==false || $InsertProduser==false){
-			$message = 'Error: ' . $db->error ;
-		}
-
-		$db->query('SET foreign_key_checks = 1');
-	}
-?>
+<!DOCTYPE html>
 <html>
 <head>
-
-
 <link rel="stylesheet" href="css\style.css">
 <script src="http://code.jquery.com/jquery-1.10.2.js"></script>
 <script type="text/javascript">
@@ -219,12 +151,12 @@ $(document).ready(function() {
 				$("#"+current.attr("id")+"-field").hide();
 				$("#"+next.attr("id")+"-field").show();
 				$("#back").show();
-				$("#finish").hide();
+				$("#submit").hide();
 				$(".active").removeClass("active");
 				next.addClass("active");
 				if($(".active").attr("id") == $("li").last().attr("id")) {
 					$("#next").hide();
-					$("#finish").show();
+					$("#submit").show();
 				}
 			}
 		}
@@ -236,7 +168,7 @@ $(document).ready(function() {
 			$("#"+current.attr("id")+"-field").hide();
 			$("#"+prev.attr("id")+"-field").show();
 			$("#next").show();
-			$("#finish").hide();
+			$("#submit").hide();
 			$(".active").removeClass("active");
 			prev.addClass("active");
 			if($(".active").attr("id") == $("li").first().attr("id")) {
@@ -244,10 +176,17 @@ $(document).ready(function() {
 			}
 		}
 	});
-	$("#finish").click(function(e){
+	$("#submit").click(function(e){
 		var output = validate();
 		if (output){
-			window.location.href('http://www.ganffest.com/thank-you');
+		  $.ajax({
+		    type: "POST",
+		    url: $('#pendaftaran-form').attr("action"),
+		    data: $('#pendaftaran-form').serialize(),
+		    success: function() {
+					alert("Your data has been submitted, will catch you up for the next announcement!");
+        }
+		  });
 		} else {
 			e.preventDefault();
 		}
@@ -260,7 +199,7 @@ $(document).ready(function() {
 <body>
 <h1>Form Pendaftaran Ganffest 2018</h1>
 
-<div class="message"><?php if(isset($message)) echo $message; ?></div>
+<div class="test-1">
 <span id="debug"></span>
 <ul id="pendaftaran-step">
 	<li id="sutradara"  class="active">Sutradara</li>
@@ -268,8 +207,8 @@ $(document).ready(function() {
 	<li id="film">Film</li>
 	<li id="agreement">Agreement</li>
 </ul>
-<form name="form_pendaftaran" id="pendaftaran-form" method="post" enctype="multipart/form-data">
-	<div id="sutradara-field" >
+<form name="form_pendaftaran" id="pendaftaran-form" action="process.php" method="post" enctype="multipart/form-data">
+	<div id="sutradara-field" style="display:none;" >
 		<label>Nama Lengkap</label><span id="name-error" class="formError"></span>
 		<div><input type="text" name="name" id="name" class="demoInputBox"/></div>
 		<label>Email</label><span id="email-error" class="formError"></span>
@@ -334,7 +273,7 @@ $(document).ready(function() {
 		<label>Poster/Artwork, Jika ada</label>
 		<div><input type="file" name="poster" id="poster"></div>
 	</div>
-	<div id="agreement-field"  style="display:none;">
+	<div id="agreement-field">
 			<input type="checkbox" name="agreement" id="c1" value="1" class="chckBox"> Saya mengetahui secara sadar dan menyetujui semua syarat dan ketentuan pendaftaran Ganesha Film Festival 2018[*]<br>
 			<input type="checkbox" name="agreement" id="c2" value="2" class="chckBox"> Saya mengisi formulir pendaftaran Ganesha Film Festival 2018 dengan data yang sebenarnya, bersedia berpartisipasi dalam Calling Entry Ganesha Film Festival 2018, dan mematuhi segala peraturan serta kesepakatan di dalamnya. [*]<br>
 			<input type="checkbox" name="agreement" id="c3" value="3" class="chckBox">Saya menyetujui sebagian/seluruh dari clip film pendek, still photo, poster, dan trailer dapat dipakai oleh Liga Film Mahasiswa ITB untuk kepentingan promosi Ganesha Film Festival 2018 dan setelahnya, dengan catatan Liga Film Mahasiswa ITB akan membicarakan lebih detail penggunaan dan izin filmnya terlebih dahulu kepada sutradara atau produser. [*]<br>
@@ -343,8 +282,9 @@ $(document).ready(function() {
 	<div>
 		<input class="btnAction" type="button" name="back" id="back" value="Back" style="display:none;">
 		<input class="btnAction" type="button" name="next" id="next" value="Next">
-		<input class="btnAction" type="submit" name="finish" id="finish" value="Submit" style="display:none;">
+		<input class="btnAction" type="submit" name="submit" id="submit" value="Submit" style="display:none;">
 	</div>
 </form>
+</div>
 </body>
 </html>

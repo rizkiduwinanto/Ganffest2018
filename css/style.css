@@ -38,7 +38,7 @@ body{
   border: #CDCDCD 1px solid;
   border-radius: 4px;
   background-color: #FFF;
-  width: 100%;
+  width: 95%;
 }
 .formError{
   color:#FF0000;
@@ -65,8 +65,6 @@ label{
   line-height:35px;
 }
 h1{
-  margin-top: 20px;
-	margin:3px 0;
 	font-size:30px;
 	text-align:center;
 }
