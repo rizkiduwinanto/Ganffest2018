@@ -16,9 +16,17 @@ function validate() {
 			output = false;
 			$("#email-error").html("Email required!");
 		}
+		if(!$("#email").val().match(/^([\w-\.]+@([\w-]+\.)+[\w-]{2,4})?$/)) {
+			$("#email-error").html("Invalid Email!");
+			output = false;
+		}
 		if(!($("#no_telp").val())) {
 			output = false;
 			$("#no-telp-error").html("Nomor Telepon required!");
+		}
+		if(!($("#no_telp").val().match(/[0-9() +-]/g))) {
+			output = false;
+			$("#no-telp-error").html("Invalid Nomor Telepon");
 		}
 		if(!($("#alamat").val())) {
 			output = false;
@@ -36,6 +44,10 @@ function validate() {
 			output = false;
 			$("#kodepos-error").html("Kodepos required!");
 		}
+		if(!($("#kodepos").val().match())) {
+			output = false;
+			$("#kodepos-error").html("Kodepos required!");
+		}
 		if(!($("#biografi").val())) {
 			output = false;
 			$("#biografi-error").html("Biografi required!");
@@ -47,10 +59,6 @@ function validate() {
 		if($("#fotoident").val()=='') {
 			output = false;
 			$("#fotoident-error").html("Foto Identitas required!");
-		}
-		if(!$("#email").val().match(/^([\w-\.]+@([\w-]+\.)+[\w-]{2,4})?$/)) {
-			$("#email-error").html("Invalid Email!");
-			output = false;
 		}
 	}
 	if($("#produser-field").css('display') != 'none') {
@@ -65,6 +73,10 @@ function validate() {
 		if(!($("#no_telp_prod").val())) {
 			output = false;
 			$("#no-telp-prod-error").html("Nomor Telepon required!");
+		}
+		if(!($("#no_telp_prod").val().match(/[0-9() +-]/g))) {
+			output = false;
+			$("#no-telp-error").html("Invalid Nomor Telepon");
 		}
 		if(!($("#name_ph").val())) {
 			output = false;
@@ -101,6 +113,10 @@ function validate() {
 			$("#tahun-error").html("Tahun required!");
 		}
 		if(!($("#durasi").val())) {
+			output = false;
+			$("#durasi-error").html("Durasi required!");
+		}
+		if(!($("#durasi").val().match())) {
 			output = false;
 			$("#durasi-error").html("Durasi required!");
 		}
@@ -178,16 +194,7 @@ $(document).ready(function() {
 	});
 	$("#submit").click(function(e){
 		var output = validate();
-		if (output){
-		  $.ajax({
-		    type: "POST",
-		    url: $('#pendaftaran-form').attr("action"),
-		    data: $('#pendaftaran-form').serialize(),
-		    success: function() {
-					alert("Your data has been submitted, will catch you up for the next announcement!");
-        }
-		  });
-		} else {
+		if (!output){
 			e.preventDefault();
 		}
 	});
@@ -208,7 +215,7 @@ $(document).ready(function() {
 	<li id="agreement">Agreement</li>
 </ul>
 <form name="form_pendaftaran" id="pendaftaran-form" action="process.php" method="post" enctype="multipart/form-data">
-	<div id="sutradara-field" style="display:none;" >
+	<div id="sutradara-field" >
 		<label>Nama Lengkap</label><span id="name-error" class="formError"></span>
 		<div><input type="text" name="name" id="name" class="demoInputBox"/></div>
 		<label>Email</label><span id="email-error" class="formError"></span>
@@ -273,7 +280,7 @@ $(document).ready(function() {
 		<label>Poster/Artwork, Jika ada</label>
 		<div><input type="file" name="poster" id="poster"></div>
 	</div>
-	<div id="agreement-field">
+	<div id="agreement-field" style="display:none;">
 			<input type="checkbox" name="agreement" id="c1" value="1" class="chckBox"> Saya mengetahui secara sadar dan menyetujui semua syarat dan ketentuan pendaftaran Ganesha Film Festival 2018[*]<br>
 			<input type="checkbox" name="agreement" id="c2" value="2" class="chckBox"> Saya mengisi formulir pendaftaran Ganesha Film Festival 2018 dengan data yang sebenarnya, bersedia berpartisipasi dalam Calling Entry Ganesha Film Festival 2018, dan mematuhi segala peraturan serta kesepakatan di dalamnya. [*]<br>
 			<input type="checkbox" name="agreement" id="c3" value="3" class="chckBox">Saya menyetujui sebagian/seluruh dari clip film pendek, still photo, poster, dan trailer dapat dipakai oleh Liga Film Mahasiswa ITB untuk kepentingan promosi Ganesha Film Festival 2018 dan setelahnya, dengan catatan Liga Film Mahasiswa ITB akan membicarakan lebih detail penggunaan dan izin filmnya terlebih dahulu kepada sutradara atau produser. [*]<br>

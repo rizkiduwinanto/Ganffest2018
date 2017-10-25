@@ -58,12 +58,20 @@
 		$ID_Film = $db->insert_id;
 
 
-		if($InsertSutradara === false || $InsertFilm==false || $InsertProduser==false){
+		if($InsertSutradara === true && $InsertFilm === true && $InsertProduser === true){
+			$to = $email;
+			$subject = "Verifikasi Ganffest";
+			$txt = "Hello world!";
+			$headers = "From: webmaster@example.com" . "\r\n" .
+			"CC: somebodyelse@example.com";
+			mail($to,$subject,$txt,$headers);
+			header("location: http://www.ganffest.com/thank-you");
+		} else {
 			$message = 'Error: ' . $db->error ;
 		}
 
 		$db->query('SET foreign_key_checks = 1');
+		$db->close();
 	}
-	header("location: http://www.ganffest.com/thank-you");
 	exit;
 ?>
