@@ -1,0 +1,130 @@
+body {
+  padding-top: 5rem;
+}
+
+.starter-template {
+  padding: 3rem 1.5rem;
+  text-align: center;
+}
+
+@font-face {
+    font-family: 'Mouse_Deco';
+    src: url('css/Mouse_Deco.ttf');
+}
+
+.navbar-default .navbar-nav > li > a:hover, .navbar-default .navbar-nav > li > a:focus {
+  color: #000;  /*Sets the text hover color on navbar*/
+}
+
+.navbar-default .navbar-nav > .active > a, .navbar-default .navbar-nav > .active > a:hover, .navbar-default .navbar-nav > .active > a:focus {
+  color: #ffffff; /*BACKGROUND color for active*/
+  background-color: #FCE122;
+}
+
+.navbar-default {
+  background-color: #ffffff;
+  border-bottom:2px solid rgb(0,0,0);
+}
+
+.dropdown-menu > li > a:hover, .dropdown-menu > a:hover {
+  color: #262626;
+  text-decoration: none;
+  background-color: #FCE122;  /*change color of links in drop down here*/
+}
+
+.nav > li > a:hover, .nav > li > a:focus {
+  text-decoration: none;
+  background-color: #FCE122; /*Change rollover cell color here*/
+}
+
+
+.navbar-default .navbar-nav > li > a, .dropdown-menu > a {
+  font-family: Mouse_Deco;
+  color: #000000; /*Change active text color here*/
+}
+
+.navbar-default .navbar-nav > li > a:hover{
+  color: #ffffff; /*BACKGROUND color for active*/
+  background-color: #FCE122;
+}
+
+/* .dropdown-submenu{
+    position: relative;
+}
+.dropdown-submenu a::after{
+    transform: rotate(-90deg);
+    position: absolute;
+    right: 3px;
+    top: 40%;
+}
+.dropdown-submenu:hover .dropdown-menu, .dropdown-submenu:focus .dropdown-menu{
+    display: flex;
+    flex-direction: column;
+    position: absolute !important;
+    margin-top: -30px;
+    right:: 100%;
+} */
+
+/* @media (max-width: 992px) {
+    .dropdown-menu{
+        width: 50%;
+    }
+    .dropdown-menu .dropdown-submenu{
+        width: auto;
+    }
+} */
+
+.img-main {
+  min-height : 100%;
+  min-width : 100%;
+  background-size:100% 100%;
+  background-repeat:no-repeat;
+  overflow-y: hidden;
+  overflow-x: hidden;
+}
+
+div.laptop-wrapper {
+    position: relative;
+    padding-top: 25px;
+    padding-bottom: 75%;
+    height: 0;
+}
+
+div.kontak-wrapper {
+    position: relative;
+    padding-top: 25px;
+    padding-bottom: 75%;
+    height: 0;
+}
+
+div.kontak-wrapper iframe {
+    box-sizing: border-box;
+    background: url('website new/KONTAK/kontak.jpg') center center no-repeat;
+    background-size: contain;
+    padding: 20% 30% 20% 10%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+div.laptop-wrapper iframe {
+    box-sizing: border-box;
+    background: url('website new/BERANDA/main web2.png') center center no-repeat;
+    background-size: contain;
+    padding: 20% 20% 20% 20%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.full-width-div {
+    background: url('website new/KONTAK/kontak.jpg') center center no-repeat;
+    background-size:100%;
+    width: 100%;
+    height: 1000px;
+    border: 1px solid black;
+}
